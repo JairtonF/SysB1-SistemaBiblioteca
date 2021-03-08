@@ -1,53 +1,15 @@
 <?php
 
-include('php_action/create.php');
+//conexão
+include_once 'php_action/db_connect.php';
 
-//sessão
+//header
+include_once 'includes/header.php';
 
-session_start();
-
-if(isset($_SESSION['mensagem'])): ?>
-    
-
-<script>
-    
-    //mensagemde status do cadastro
-
-    window.onload = function(){
-        M.toast({html: ' <?php echo $_SESSION['mensagem']; ?> '});
-    };
-
-</script>
-
-<?php
-
-endif;
-
-session_unset();
+//message
+include_once 'includes/message.php';
 
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-    <meta charset="UTF-8">
-    
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!--Link com o css-->
-    <link rel="stylesheet" href="css/materialize.css">
-
-    <!--Fontes vindas do google-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <title>Document</title>
-
-</head>
-
-<body>
 
     <div class="row">
 
@@ -87,7 +49,35 @@ session_unset();
                         <td> <?php echo $dados['Segundo_Nome']; ?> </td>
 
                         <td><a  href="editar.php?id= <?php echo $dados['id']; ?>" class="btn-floating orange"> <i class="material-icons"> edit </i> </a> </td>
-                        <td><a  href="" class="btn-floating red"> <i class="material-icons"> delete </i> </a> </td>
+                        
+                        <td><a  href="#modal<?php echo $dados['id']; ?>" class="btn-floating red modal-trigger"> <i class="material-icons"> delete </i> </a> </td>
+                    
+                            <!-- Modal Structure -->
+                            <div id="modal<?php echo $dados['id']; ?>" class="modal">
+                                
+                                <div class="modal-content">
+                                    
+                                    <h4>Tem certeza?</h4>
+                                    
+                                    <p>As informações slavas serão apagadas permanentemente.</p>
+                                
+                                </div>
+    
+                                <div class="modal-footer">
+                                
+                                    <form action="php_action/delete.php" method="POST">
+                                    
+                                        <input type="hidden" name="id" value="<?php echo $dados['id']; ?>">
+
+                                        <button type="submit" name="btn-deletar" class="btn red">Sim, quero deletar</button>
+
+                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat"> Cancelar </a>
+
+                                    </form>
+
+                                </div>
+                            
+                            </div>
                     </tr>
                 
                     <?php 
@@ -108,7 +98,8 @@ session_unset();
         
     </div>
 
-    <script src="js/materialize.js"></script>
+<?php
 
-</body>
-</html>
+    include_once 'includes/footer.php';
+
+?>
